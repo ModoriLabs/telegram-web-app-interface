@@ -1,4 +1,5 @@
 import { BackButton, MainButton, WebAppProvider, useShowPopup } from '@vkruglikov/react-telegram-web-app';
+import Link from 'next/link';
 import { styled } from 'styled-components';
 
 const Container = styled.section`
@@ -19,6 +20,7 @@ const ButtonWrapper = styled.section`
     border-radius: 10px;
     background-color: #007bff;
     color: #fff;
+    cursor: pointer;
   }
 `;
 
@@ -48,11 +50,11 @@ const Main = () => {
           <h1>나의 수익: 0</h1>
         </div>
         <ButtonWrapper>
-          <button>Adding AD</button>
+          <Link href={'/insert_ad'}>Adding AD</Link>
           <button>View AD for airdrops!</button>
           <button>connect wallet!</button>
         </ButtonWrapper>
-        <MainButton text="ON CLICK!!" onClick={handleClick}></MainButton>
+        <MainButton text="ON CLICK!!"></MainButton>
       </Container>
     </WebAppProvider>
   );

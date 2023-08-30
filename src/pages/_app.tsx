@@ -1,4 +1,3 @@
-import { WebAppProvider } from '@vkruglikov/react-telegram-web-app';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 
