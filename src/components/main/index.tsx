@@ -33,7 +33,13 @@ const Main = () => {
   return (
     <>
       <Container>
-        <BackButton onClick={() => console.log('Hello, I am back button!')} />
+        <BackButton
+          onClick={() =>
+            showPopup({
+              message: 'Hello, I am popup',
+            })
+          }
+        />
         <div>
           <h1>나의 수익: 0</h1>
         </div>
@@ -42,7 +48,7 @@ const Main = () => {
           <button>View AD for airdrops!</button>
           <button>connect wallet!</button>
         </ButtonWrapper>
-        <MainButton text="ON CLICK!!" onClick={handleClick} disabled={false}></MainButton>
+        <MainButton text="ON CLICK!!" onClick={handleClick}></MainButton>
       </Container>
     </>
   );
