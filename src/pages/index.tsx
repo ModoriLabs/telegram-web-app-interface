@@ -1,5 +1,9 @@
-import Main from '@/components/main';
+import dynamic from 'next/dynamic';
+
+const DynamicMain = dynamic(() => import('@/components/main'), {
+  ssr: false,
+});
 
 export default function Home() {
-  return <Main />;
+  return <DynamicMain />;
 }

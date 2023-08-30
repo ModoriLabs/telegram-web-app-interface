@@ -30,8 +30,12 @@ const Main = () => {
       message: 'Hello, I am popup',
     });
 
+  console.log(window);
   return (
-    <>
+    <WebAppProvider
+      options={{
+        smoothButtonsTransition: true,
+      }}>
       <Container>
         <BackButton
           onClick={() =>
@@ -50,7 +54,7 @@ const Main = () => {
         </ButtonWrapper>
         <MainButton text="ON CLICK!!" onClick={handleClick}></MainButton>
       </Container>
-    </>
+    </WebAppProvider>
   );
 };
 
