@@ -1,7 +1,12 @@
 import { Inter } from 'next/font/google';
 import { BackButton, MainButton, WebAppProvider, useShowPopup } from '@vkruglikov/react-telegram-web-app';
+import { styled } from 'styled-components';
 
 const inter = Inter({ subsets: ['latin'] });
+
+const Container = styled.section`
+  min-height: 100%;
+`;
 
 export default function Home() {
   const showPopup = useShowPopup();
@@ -13,7 +18,7 @@ export default function Home() {
 
   return (
     <>
-      <section id="main">
+      <Container>
         <WebAppProvider
           options={{
             smoothButtonsTransition: true,
@@ -27,7 +32,7 @@ export default function Home() {
           <button>connect wallet!</button>
           <MainButton text="ON CLICK!!" onClick={handleClick} disabled={false}></MainButton>
         </WebAppProvider>
-      </section>
+      </Container>
     </>
   );
 }
