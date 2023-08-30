@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import Script from 'next/script';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
@@ -31,6 +32,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <script src="https://telegram.org/js/telegram-web-app.js" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
