@@ -1,14 +1,21 @@
-import { useTonAddress } from '@tonconnect/ui-react';
+import { useTonAddress } from "@tonconnect/ui-react";
+import { nftCollectionAddress } from "@/constants/addresses";
 import {
   BackButton,
   MainButton,
   useShowPopup,
-} from '@vkruglikov/react-telegram-web-app';
+} from "@vkruglikov/react-telegram-web-app";
 
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { css, styled } from 'styled-components';
-import InputContainer from '../common/InputContainer';
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
+import { css, styled } from "styled-components";
+import InputContainer from "../common/InputContainer";
+import { useTonClient } from "@/hooks/useTonClient";
+import { useQuery } from "react-query";
+import { NftItem } from "../../../build/tact_NftItem";
+import { NftCollection } from "../../../build/tact_NftCollection";
+import { Address, toNano } from "ton-core";
+import useTonConnect from "@/hooks/useTonConnect";
 
 const Container = styled.section`
   height: calc(100vh - 80px);
@@ -66,14 +73,48 @@ const AddingAd = () => {
   const router = useRouter();
   const showPopup = useShowPopup();
   const address = useTonAddress();
-  const [searchKey, setSearchKey] = useState('');
   const [isAgreeFees, setAgreeFees] = useState(false);
+  const { sender } = useTonConnect();
+  const [newUrl, setNewUrl] = useState("");
+  console.log("newUrl", newUrl);
+
+  const client = useTonClient();
+  const { data: nftItemContract } = useQuery("nftItemContract", async () => {
+    const nftCollectionWrapper = NftCollection.fromAddress(
+      Address.parse(nftCollectionAddress)
+    );
+    const nftCollectionContract = await client.open(nftCollectionWrapper);
+
+    const currentNftItemAddress =
+      await nftCollectionContract.getGetCurrentNftAddress();
+
+    const nftItemWrapper = NftItem.fromAddress(currentNftItemAddress);
+    const nftItemContract = await client.open(nftItemWrapper);
+    return nftItemContract;
+  });
+
+  const { data: url } = useQuery("url", async () =>
+    nftItemContract?.getGetUrl()
+  );
+  const setUrl = async (newUrl: string) => {
+    if (!nftItemContract) return;
+    await nftItemContract.send(
+      sender,
+      {
+        value: toNano("0.05"),
+      },
+      {
+        $$type: "UpdateUrl",
+        url: newUrl,
+      }
+    );
+  };
 
   useEffect(() => {
     if (!!!address) {
       showPopup({
         message:
-          'There is no detected wallet address. Please check your wallet',
+          "There is no detected wallet address. Please check your wallet",
       });
       router.back();
       return;
@@ -91,11 +132,11 @@ const AddingAd = () => {
               <p>URL</p>
               <input
                 type="text"
-                value={searchKey}
+                value={newUrl}
                 onChange={(event) => {
-                  setSearchKey(event.target.value);
+                  setNewUrl(event.target.value);
                 }}
-                placeholder="Enter the ad url"
+                placeholder={url || "Enter the ad url"}
               />
             </InputWrapper>
           </InputContainer>
@@ -107,7 +148,7 @@ const AddingAd = () => {
             </InputWrapper>
           </InputContainer>
         </InputSection>
-        {!!searchKey && (
+        {!!newUrl && (
           <Checkbox>
             <input
               type="checkbox"
