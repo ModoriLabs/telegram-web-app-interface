@@ -1,11 +1,9 @@
-import AddingAd from '@/components/AddingAd';
+import dynamic from 'next/dynamic';
 
-const AddingAdPage = () => {
-  return (
-    <>
-      <AddingAd />
-    </>
-  );
-};
+const DynamicAddingAd = dynamic(() => import('@/components/AddingAd'), {
+  ssr: false,
+});
 
-export default AddingAdPage;
+export default function AddingAd() {
+  return <DynamicAddingAd />;
+}

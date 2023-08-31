@@ -2,6 +2,23 @@ import React from 'react';
 import { ReactNode, useState } from 'react';
 import { styled } from 'styled-components';
 
+const Container = styled.div<{
+  isFocused: boolean;
+}>`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid ${(props) => (props.isFocused ? '#efc2c0' : '#e5e7eb')};
+  transition: border 0.3s ease;
+
+  input {
+    width: 100%;
+    border: none;
+  }
+`;
+
 const InputContainer: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
@@ -27,22 +44,5 @@ const InputContainer: React.FC<{
 
   return <Container isFocused={isInputFocused}>{childrenWithProps}</Container>;
 };
-
-const Container = styled.div<{
-  isFocused: boolean;
-}>`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 40px;
-  border-radius: 10px;
-  border: 2px solid ${(props) => (props.isFocused ? '#efc2c0' : '#e5e7eb')};
-  transition: border 0.3s ease;
-
-  input {
-    width: 100%;
-    border: none;
-  }
-`;
 
 export default InputContainer;

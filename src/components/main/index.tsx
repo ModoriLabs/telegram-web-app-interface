@@ -92,7 +92,7 @@ const Main = () => {
                   <p>Publish ads on the platform for a successful business!</p>
                 </ContainerButton>
               </Link>
-              <Link href={'/insert_ad'}>
+              <Link href={'/view_ad/1'}>
                 <ContainerButton>
                   <b>To view ads</b>
                   <p>Easily receive airdrops by viewing ads!</p>
