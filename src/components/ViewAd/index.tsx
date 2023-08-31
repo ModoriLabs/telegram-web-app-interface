@@ -47,7 +47,7 @@ const ViewAd = () => {
   const router = useRouter();
   const [claimable, setClaimable] = useState(false);
   const [claimed, setClaimed] = useState(false);
-  const [isHideVideo, setIsHideVideo] = useState(false);
+  const [showFinale, setShowFinale] = useState(false);
   const client = useTonClient();
   const address = useTonAddress();
   const { sender } = useTonConnect();
@@ -110,7 +110,6 @@ const ViewAd = () => {
     const count = localStorage.getItem(address);
     const newCount = count ? Number(count) + 1 : 1;
     localStorage.setItem(address, String(newCount));
-    console.log("address", address);
   };
 
   if (!url) {
@@ -118,7 +117,6 @@ const ViewAd = () => {
       height: "300",
       width: "390",
       playerVars: {
-        // https://developers.google.com/youtube/player_parameters
         controls: 0,
         autoplay: 1,
       },
@@ -144,7 +142,6 @@ const ViewAd = () => {
     height: "600",
     width: "390",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       controls: 0,
       autoplay: 1,
       end: 10,
@@ -153,36 +150,23 @@ const ViewAd = () => {
 
   const count = localStorage.getItem(address);
   const claimedAmount = count ? `${Number(count) * 0.1} TON` : "0";
+  // TODO: showFinale -> show finale animation
   return (
     <Container>
       <BackButton onClick={() => router.back()} />
-      {!isHideVideo && (
+      <div>
         <div>
-          <div>
-            Current Video Url is: <b>{url}</b>
-          </div>
-          <YouTube
-            opts={opts}
-            videoId={url}
-            onEnd={() => {
-              setClaimable(true);
-              setIsHideVideo(true);
-            }}
-          />
-
-          {/* <VideoWrapper>
-        <video controls playsInline>
-          <source
-            src={
-              // "https://youtu.be/A_RqixtLCtw?si=N9wzTwMHH1JZhATD&origin=http://localhost:3000&autoplay=1&mute=1&enablejsapi=1&widgetid=1"
-              "https://youtu.be/A_RqixtLCtw?si=N9wzTwMHH1JZhATD?origin=https://localhost:3000"
-            }
-            type="video/mp4"
-          />
-        </video>
-      </VideoWrapper> */}
+          Current Video Url is: <b>{url}</b>
         </div>
-      )}
+        <YouTube
+          opts={opts}
+          videoId={url}
+          onEnd={() => {
+            setClaimable(true);
+            setShowFinale(true);
+          }}
+        />
+      </div>
       {claimable && (
         <MainButton
           text="Earn"

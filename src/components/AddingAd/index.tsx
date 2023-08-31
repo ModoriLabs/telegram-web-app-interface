@@ -190,7 +190,7 @@ const AddingAd = () => {
           text="Confirm Ad!!"
           onClick={async () => {
             try {
-              // TODO: confirm ad next step
+              mint();
             } catch (e: any) {
               console.log(e);
             }
