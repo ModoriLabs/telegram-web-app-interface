@@ -10,12 +10,19 @@ const Container = styled.section`
   justify-content: space-between;
   border-bottom: 2px solid #d1d5db;
   padding: 0 20px;
+  color: #6b7280;
+  span {
+    color: #000;
+    font-weight: bolder;
+  }
 `;
 
 const Navigation: React.FC = () => {
   return (
     <Container>
-      <b>AD-Slide</b>
+      <b>
+        <span>T</span>on<span>W</span>atch<span>A</span>d
+      </b>
       <TonConnectButton />
     </Container>
   );

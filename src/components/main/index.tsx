@@ -23,7 +23,7 @@ const ButtonWrapper = styled.section`
   flex-direction: column;
   margin: 50px auto;
   > * + * {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 `;
 
@@ -43,13 +43,12 @@ const ConnectWalletArea = styled.section`
 `;
 const ContainerButton = styled.button`
   display: flex;
-  background-color: #e5edff;
+  background-color: #f5dddb;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
   border-radius: 20px;
   padding: 20px;
-  border: 2px solid #b4c6fc;
   transition: all 0.3s ease;
   width: 100%;
   cursor: pointer;
@@ -62,7 +61,7 @@ const ContainerButton = styled.button`
     color: #4b5563;
   }
   &:hover {
-    background-color: #cddbfe;
+    background-color: #efc2c0;
   }
 `;
 
@@ -83,13 +82,6 @@ const Main = () => {
       }}
     >
       <Container>
-        {/* <BackButton
-          onClick={() =>
-            showPopup({
-              message: 'Hello, I am popup',
-            })
-          }
-        /> */}
         {!!address ? (
           <ConnectWalletArea>
             <b>Select the features you want to use!</b>
@@ -116,22 +108,9 @@ const Main = () => {
           </ConnectWalletArea>
         ) : (
           <WalletDisabledArea>
-            <b>서비스를 이용하기 위해서 지갑을 연결해주세요.</b>
+            <b>Please connect your wallet to use the service.</b>
           </WalletDisabledArea>
         )}
-
-        {/* <MainButton
-          text="ON CLICK!!"
-          onClick={async () => {
-            try {
-              const tonConnectUI = new TonConnect();
-            } catch (e: any) {
-              showPopup({
-                message: e,
-              });
-            }
-          }}
-        ></MainButton> */}
       </Container>
     </WebAppProvider>
   );
