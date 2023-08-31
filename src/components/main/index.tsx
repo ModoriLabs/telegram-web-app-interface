@@ -32,6 +32,12 @@ const WalletDisabledArea = styled.section`
   align-items: center;
   justify-content: center;
   height: calc(100vh - 80px - 40px);
+  width: 90%;
+  margin: 0 auto;
+  > b {
+    font-size: 14px;
+    color: #1f2a37;
+  }
 `;
 const ConnectWalletArea = styled.section`
   width: 90%;

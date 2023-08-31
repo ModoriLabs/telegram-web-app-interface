@@ -50,11 +50,24 @@ const InputSection = styled.section`
   }
 `;
 
+const Checkbox = styled.div`
+  margin-top: 30px;
+  display: flex;
+  align-items: flex-start;
+  label {
+    margin-left: 6px;
+    padding-left: 6px;
+    font-size: 14px;
+    color: #999;
+  }
+`;
+
 const AddingAd = () => {
   const router = useRouter();
   const showPopup = useShowPopup();
   const address = useTonAddress();
   const [searchKey, setSearchKey] = useState('');
+  const [isAgreeFees, setAgreeFees] = useState(false);
 
   useEffect(() => {
     if (!!!address) {
@@ -94,20 +107,33 @@ const AddingAd = () => {
             </InputWrapper>
           </InputContainer>
         </InputSection>
+        {!!searchKey && (
+          <Checkbox>
+            <input
+              type="checkbox"
+              id="checkbox-input"
+              onChange={({ target: { checked } }) => {
+                setAgreeFees(checked);
+              }}
+            />
+            <label htmlFor="checkbox-input">
+              When registering for this video, you will need to pay 10 TON.
+              which will be distributed to Max user viewers (10) in the order in
+              which the ad is shown, in increments of 1 TON (10 TON / Max user
+              viewers). If you understand and agree, please click the
+              corresponding checkbox.
+            </label>
+          </Checkbox>
+        )}
       </Container>
-      {!!searchKey && (
+      {isAgreeFees && (
         <MainButton
           text="Confirm Ad!!"
           onClick={async () => {
             try {
-              showPopup({
-                message:
-                  'It will cost 10 Tons to register this video and 1 Ton for each user view. Do you want to continue?',
-              });
+              // TODO: confirm ad next step
             } catch (e: any) {
-              showPopup({
-                message: e,
-              });
+              console.log(e);
             }
           }}
         ></MainButton>
