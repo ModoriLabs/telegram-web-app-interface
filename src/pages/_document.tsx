@@ -41,6 +41,10 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <script src="https://telegram.org/js/telegram-web-app.js" async />
+          <script
+            src="//cdn.jsdelivr.net/npm/@ungap/custom-elements"
+            async
+          ></script>
           <link rel="icon" href="/favicon.ico" />
           <meta
             name="format-detection"
