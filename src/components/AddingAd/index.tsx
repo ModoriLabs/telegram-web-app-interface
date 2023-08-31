@@ -63,15 +63,22 @@ const AddingAd = () => {
   const address = useTonAddress();
   const { sender } = useTonConnect();
   const [newUrl, setNewUrl] = useState("");
-  console.log("newUrl", newUrl);
 
   const client = useTonClient();
-  const { data: nftItemContract } = useQuery("nftItemContract", async () => {
-    const nftCollectionWrapper = NftCollection.fromAddress(
-      Address.parse(nftCollectionAddress)
-    );
-    const nftCollectionContract = await client.open(nftCollectionWrapper);
+  const { data: nftCollectionContract } = useQuery(
+    "nftCollectionContract",
+    async () => {
+      const nftCollectionWrapper = NftCollection.fromAddress(
+        Address.parse(nftCollectionAddress)
+      );
+      const nftCollectionContract = await client.open(nftCollectionWrapper);
 
+      return nftCollectionContract;
+    }
+  );
+
+  const { data: nftItemContract } = useQuery("nftItemContract", async () => {
+    if (!nftCollectionContract) return;
     const currentNftItemAddress =
       await nftCollectionContract.getGetCurrentNftAddress();
 
@@ -83,15 +90,26 @@ const AddingAd = () => {
   const { data: url } = useQuery("url", async () =>
     nftItemContract?.getGetUrl()
   );
-  const setUrl = async (newUrl: string) => {
-    if (!nftItemContract) return;
-    await nftItemContract.send(
+
+  function isValidYouTubeShortID(str: String) {
+    return !str.includes("/") && !str.includes("http");
+  }
+
+  const mint = async () => {
+    if (!nftCollectionContract) return;
+    if (!isValidYouTubeShortID(newUrl)) {
+      showPopup({
+        message: "Please enter a valid YouTube Short ID",
+      });
+      return;
+    }
+    nftCollectionContract?.send(
       sender,
       {
-        value: toNano("0.05"),
+        value: toNano("1.05"),
       },
       {
-        $$type: "UpdateUrl",
+        $$type: "Mint",
         url: newUrl,
       }
     );
@@ -112,7 +130,7 @@ const AddingAd = () => {
     <div>
       <BackButton onClick={() => router.back()} />
       <Container>
-        <h1>insert your ad!</h1>
+        <h1>Enroll your Ad!</h1>
         <InputSection>
           <InputContainer>
             <InputWrapper>
@@ -135,22 +153,12 @@ const AddingAd = () => {
             </InputWrapper>
           </InputContainer>
         </InputSection>
+        <p>
+          It will cost 1 Ton to register this video
+          <br /> and 0.1 Ton for each user view.
+        </p>
       </Container>
-      <MainButton
-        text="Confirm Ad!!"
-        onClick={async () => {
-          try {
-            showPopup({
-              message:
-                "It will cost 10 Tons to register this video and 1 Ton for each user view. Do you want to continue?",
-            });
-          } catch (e: any) {
-            showPopup({
-              message: e,
-            });
-          }
-        }}
-      ></MainButton>
+      <MainButton text="Enroll Ad" onClick={mint}></MainButton>
     </div>
   );
 };
