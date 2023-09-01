@@ -198,7 +198,7 @@ const ViewAd = () => {
         <div>Claimed amount: {claimedAmount}</div>
         {claimable && (
           <MainButton
-            text={isConfetti ? "Go to main page" : "Receive"}
+            text={isConfetti ? "Go to main page" : "Receive!"}
             onClick={async () => {
               try {
                 if (isConfetti) {
