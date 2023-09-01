@@ -209,7 +209,7 @@ const AddingAd = () => {
       {isConfetti && <Confetti width={width} height={height} />}
       <BackButton onClick={() => router.push("/")} />
       <Container>
-        <h1>Enroll your Ad!</h1>
+        <h1>Enroll222 your Ad!</h1>
         <InputSection>
           <InputContainer>
             <InputWrapper>
