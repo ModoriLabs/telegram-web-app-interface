@@ -16,6 +16,8 @@ import { NftItem } from '../../../build/tact_NftItem';
 import { NftCollection } from '../../../build/tact_NftCollection';
 import { Address, toNano } from 'ton-core';
 import useTonConnect from '@/hooks/useTonConnect';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 
 const Container = styled.section`
   height: calc(100vh - 80px);
@@ -73,9 +75,11 @@ const AddingAd = () => {
   const router = useRouter();
   const showPopup = useShowPopup();
   const address = useTonAddress();
+  const { width, height } = useWindowSize();
   const [isAgreeFees, setAgreeFees] = useState(false);
   const { sender } = useTonConnect();
   const [newUrl, setNewUrl] = useState('');
+  const [isConfetti, setConfetti] = useState(false);
 
   const client = useTonClient();
   const { data: nftCollectionContract } = useQuery(
@@ -128,26 +132,29 @@ const AddingAd = () => {
         }
       )
       .then(() => {
+        setConfetti(true);
         const mintingData = localStorage.getItem('minting');
         let mintingArray = [];
 
         if (mintingData) {
           mintingArray = JSON.parse(mintingData);
         } else {
-          mintingArray.push([
-            {
-              address: address,
-              url: 'a28k9P7FhLg',
-            },
-            {
-              address: address,
-              url: 'zc8R6a-kOTM',
-            },
-            {
-              address: address,
-              url: 'dE7DCF_s7HQ',
-            },
-          ]);
+          mintingArray.push(
+            ...[
+              {
+                address: address,
+                url: 'a28k9P7FhLg',
+              },
+              {
+                address: address,
+                url: 'zc8R6a-kOTM',
+              },
+              {
+                address: address,
+                url: 'dE7DCF_s7HQ',
+              },
+            ]
+          );
         }
 
         mintingArray.push({
@@ -171,6 +178,7 @@ const AddingAd = () => {
 
   return (
     <div>
+      {isConfetti && <Confetti width={width} height={height} />}
       <BackButton onClick={() => router.back()} />
       <Container>
         <h1>Enroll your Ad!</h1>
@@ -217,9 +225,13 @@ const AddingAd = () => {
       </Container>
       {isAgreeFees && (
         <MainButton
-          text="Confirm Ad!!"
+          text={isConfetti ? 'Go to main page' : 'Confirm Ad!!'}
           onClick={async () => {
             try {
+              if (isConfetti) {
+                router.back();
+                return;
+              }
               mint();
             } catch (e: any) {
               console.log(e);

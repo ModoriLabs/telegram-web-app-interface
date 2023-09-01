@@ -91,7 +91,7 @@ const Dashboard = () => {
       </DashboardContainer>
       <DashboardContainer>
         <b>Ads Creation History</b>
-        {!!mintingData ? (
+        {mintingData.length !== 0 ? (
           <VideoGrid>
             {mintingData.map((data, index) => {
               return (

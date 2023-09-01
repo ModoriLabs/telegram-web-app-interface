@@ -11,6 +11,8 @@ import { NftItem } from '../../../build/tact_NftItem';
 import YouTube from 'react-youtube';
 import useTonConnect from '@/hooks/useTonConnect';
 import { useTonAddress, useTonWallet } from '@tonconnect/ui-react';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 
 const Container = styled.article`
   width: 90%;
@@ -62,6 +64,8 @@ const ViewAd = () => {
   const [claimable, setClaimable] = useState(false);
   const [claimed, setClaimed] = useState(false);
   const [showFinale, setShowFinale] = useState(false);
+  const [isConfetti, setConfetti] = useState(false);
+  const { width, height } = useWindowSize();
   const client = useTonClient();
   const address = useTonAddress();
   const { sender } = useTonConnect();
@@ -121,6 +125,7 @@ const ViewAd = () => {
     );
 
     setClaimed(true);
+    setConfetti(true);
     const count = localStorage.getItem(address);
     const newCount = count ? Number(count) + 1 : 1;
     localStorage.setItem(address, String(newCount));
@@ -164,38 +169,44 @@ const ViewAd = () => {
     : '0';
   // TODO: showFinale -> show finale animation
   return (
-    <Container>
-      <BackButton onClick={() => router.back()} />
-      <div>
+    <>
+      {isConfetti && <Confetti width={width} height={height} />}
+      <Container>
+        <BackButton onClick={() => router.back()} />
         <div>
-          Current Video Url is: <b>{url}</b>
+          <div>
+            Current Video Url is: <b>{url}</b>
+          </div>
+          <VideoWrapper>
+            <YouTube
+              opts={opts}
+              videoId={url}
+              onEnd={() => {
+                setClaimable(true);
+                setShowFinale(true);
+              }}
+            />
+          </VideoWrapper>
         </div>
-        <VideoWrapper>
-          <YouTube
-            opts={opts}
-            videoId={url}
-            onEnd={() => {
-              setClaimable(true);
-              setShowFinale(true);
+        <div>Claimed amount: {claimedAmount}</div>
+        {claimable && (
+          <MainButton
+            text={isConfetti ? 'Go to main page' : 'Earn'}
+            onClick={async () => {
+              try {
+                if (isConfetti) {
+                  router.back();
+                  return;
+                }
+                claimable && handleClaim();
+              } catch (e: any) {
+                console.error(e);
+              }
             }}
-          />
-        </VideoWrapper>
-      </div>
-      <div>Claimed amount: {claimedAmount}</div>
-      {claimable && (
-        <MainButton
-          disabled={!claimable}
-          text="Earn"
-          onClick={async () => {
-            try {
-              claimable && handleClaim();
-            } catch (e: any) {
-              console.error(e);
-            }
-          }}
-        ></MainButton>
-      )}
-    </Container>
+          ></MainButton>
+        )}
+      </Container>
+    </>
   );
 };
 
