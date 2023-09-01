@@ -1,26 +1,23 @@
-import { useTonAddress } from "@tonconnect/ui-react";
-import { nftCollectionAddress } from "@/constants/addresses";
-import {
-  BackButton,
-  MainButton,
-  useShowPopup,
-} from "@vkruglikov/react-telegram-web-app";
+import { useTonAddress } from '@tonconnect/ui-react';
+import { nftCollectionAddress } from '@/constants/addresses';
+import { useShowPopup } from '@vkruglikov/react-telegram-web-app';
+import { BackButton, MainButton } from '@twa-dev/sdk/react';
 
-import Confetti from "react-confetti";
-import { useWindowSize } from "react-use";
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 
-import YouTube from "react-youtube";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { css, styled } from "styled-components";
-import InputContainer from "../common/InputContainer";
-import { useTonClient } from "@/hooks/useTonClient";
-import { useQuery } from "react-query";
-import { NftItem } from "../../../build/tact_NftItem";
-import { NftCollection } from "../../../build/tact_NftCollection";
-import { Address, toNano } from "ton-core";
-import useTonConnect from "@/hooks/useTonConnect";
-import { toast } from "react-toastify";
+import YouTube from 'react-youtube';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { css, styled } from 'styled-components';
+import InputContainer from '../common/InputContainer';
+import { useTonClient } from '@/hooks/useTonClient';
+import { useQuery } from 'react-query';
+import { NftItem } from '../../../build/tact_NftItem';
+import { NftCollection } from '../../../build/tact_NftCollection';
+import { Address, toNano } from 'ton-core';
+import useTonConnect from '@/hooks/useTonConnect';
+import { toast } from 'react-toastify';
 
 const Container = styled.section`
   height: calc(100vh - 80px);
@@ -82,12 +79,12 @@ const AddingAd = () => {
   const [isAgreeFees, setAgreeFees] = useState(false);
   const { sender } = useTonConnect();
   const [isConfetti, setConfetti] = useState(false);
-  const [newUrl, setNewUrl] = useState("");
+  const [newUrl, setNewUrl] = useState('');
   const isValidUrl = isValidYouTubeShortID(newUrl);
 
   const client = useTonClient();
   const { data: nftCollectionContract } = useQuery(
-    "nftCollectionContract",
+    'nftCollectionContract',
     async () => {
       const nftCollectionWrapper = NftCollection.fromAddress(
         Address.parse(nftCollectionAddress)
@@ -98,7 +95,7 @@ const AddingAd = () => {
     }
   );
 
-  const { data: nftItemContract } = useQuery("nftItemContract", async () => {
+  const { data: nftItemContract } = useQuery('nftItemContract', async () => {
     if (!nftCollectionContract) return;
     const currentNftItemAddress =
       await nftCollectionContract.getGetCurrentNftAddress();
@@ -108,23 +105,23 @@ const AddingAd = () => {
     return nftItemContract;
   });
 
-  const { data: url } = useQuery("url", async () =>
+  const { data: url } = useQuery('url', async () =>
     nftItemContract?.getGetUrl()
   );
 
   function isValidYouTubeShortID(str: String) {
     if (!str) return false;
-    return !str.includes("/") && !str.includes("http");
+    return !str.includes('/') && !str.includes('http');
   }
 
   const mint = useCallback(async () => {
-    window.alert("mint1");
+    window.alert('mint1');
     if (!nftCollectionContract) return;
-    window.alert("mint2");
+    window.alert('mint2');
     if (!isValidYouTubeShortID(newUrl)) {
-      window.alert("mint3");
+      window.alert('mint3');
       showPopup({
-        message: "Please enter a valid YouTube Short ID",
+        message: 'Please enter a valid YouTube Short ID',
       });
       return;
     }
@@ -132,17 +129,17 @@ const AddingAd = () => {
       ?.send(
         sender,
         {
-          value: toNano("1.05"),
+          value: toNano('1.05'),
         },
         {
-          $$type: "Mint",
+          $$type: 'Mint',
           url: newUrl,
         }
       )
       .then(() => {
-        window.alert("mint4");
+        window.alert('mint4');
         setConfetti(true);
-        const mintingData = localStorage.getItem("minting");
+        const mintingData = localStorage.getItem('minting');
         let mintingArray = [];
 
         if (mintingData) {
@@ -152,15 +149,15 @@ const AddingAd = () => {
             ...[
               {
                 address: address,
-                url: "a28k9P7FhLg",
+                url: 'a28k9P7FhLg',
               },
               {
                 address: address,
-                url: "zc8R6a-kOTM",
+                url: 'zc8R6a-kOTM',
               },
               {
                 address: address,
-                url: "dE7DCF_s7HQ",
+                url: 'dE7DCF_s7HQ',
               },
             ]
           );
@@ -170,44 +167,44 @@ const AddingAd = () => {
           address: address,
           url: newUrl,
         });
-        localStorage.setItem("minting", JSON.stringify(mintingArray));
+        localStorage.setItem('minting', JSON.stringify(mintingArray));
       })
       .catch((e) => {
         window.alert(e);
         console.log(e);
       });
-    window.alert("mint6");
+    window.alert('mint6');
   }, [nftCollectionContract, address, newUrl, sender, showPopup]);
 
   useEffect(() => {
     if (!!!address) {
       showPopup({
         message:
-          "There is no detected wallet address. Please check your wallet",
+          'There is no detected wallet address. Please check your wallet',
       });
-      router.push("/");
+      router.push('/');
       return;
     }
   }, []);
 
   useEffect(() => {
     if (isConfetti) {
-      toast.success("Ad confirm Success!", {
-        position: "bottom-right",
+      toast.success('Ad confirm Success!', {
+        position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: 'light',
       });
     }
   }, [isConfetti]);
   return (
     <div>
       {isConfetti && <Confetti width={width} height={height} />}
-      <BackButton onClick={() => router.push("/")} />
+      <BackButton onClick={() => router.push('/')} />
       <Container>
         <h1>Enroll222 your Ad!</h1>
         <InputSection>
@@ -220,7 +217,7 @@ const AddingAd = () => {
                 onChange={(event) => {
                   setNewUrl(event.target.value);
                 }}
-                placeholder={url || "Enter the ad url"}
+                placeholder={url || 'Enter the ad url'}
               />
             </InputWrapper>
           </InputContainer>
@@ -253,11 +250,11 @@ const AddingAd = () => {
         {isValidUrl && (
           <YouTube
             style={{
-              marginTop: "20px",
+              marginTop: '20px',
             }}
             opts={{
-              height: "250",
-              width: "350",
+              height: '250',
+              width: '350',
               playerVars: {
                 controls: 0,
                 end: 10,
@@ -272,10 +269,10 @@ const AddingAd = () => {
       {isAgreeFees &&
         (isConfetti ? (
           <MainButton
-            text={"Go to main page"}
+            text={'Go to main page'}
             onClick={async () => {
               try {
-                router.push("/");
+                router.push('/');
                 return;
               } catch (e: any) {
                 console.log(e);
@@ -283,7 +280,7 @@ const AddingAd = () => {
             }}
           ></MainButton>
         ) : (
-          <MainButton text={"Confirm Ad!!"} onClick={mint}></MainButton>
+          <MainButton text={'Confirm Ad!!'} onClick={mint}></MainButton>
         ))}
     </div>
   );
