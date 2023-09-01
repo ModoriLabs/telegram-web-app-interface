@@ -260,24 +260,22 @@ const AddingAd = () => {
         )}
       </Container>
 
-      {isAgreeFees && <button onClick={mint}>mint</button>}
-
-      {isAgreeFees && (
-        <MainButton
-          text={isConfetti ? "Go to main page" : "Confirm Ad!!"}
-          onClick={async () => {
-            try {
-              if (isConfetti) {
+      {isAgreeFees &&
+        (isConfetti ? (
+          <MainButton
+            text={"Go to main page"}
+            onClick={async () => {
+              try {
                 router.push("/");
                 return;
+              } catch (e: any) {
+                console.log(e);
               }
-              mint();
-            } catch (e: any) {
-              console.log(e);
-            }
-          }}
-        ></MainButton>
-      )}
+            }}
+          ></MainButton>
+        ) : (
+          <MainButton text={"Confirm Ad!!"} onClick={mint}></MainButton>
+        ))}
     </div>
   );
 };
