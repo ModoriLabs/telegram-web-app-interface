@@ -1,16 +1,16 @@
-import { BackButton, MainButton } from '@vkruglikov/react-telegram-web-app';
-import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
-import { useQuery } from 'react-query';
-import styled from 'styled-components';
-import { NftCollection } from '../../../build/tact_NftCollection';
-import { Address, toNano } from 'ton-core';
-import { nftCollectionAddress } from '@/constants/addresses';
-import { useTonClient } from '@/hooks/useTonClient';
-import { NftItem } from '../../../build/tact_NftItem';
-import YouTube from 'react-youtube';
-import useTonConnect from '@/hooks/useTonConnect';
-import { useTonAddress, useTonWallet } from '@tonconnect/ui-react';
+import { BackButton, MainButton } from "@vkruglikov/react-telegram-web-app";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
+import { useQuery } from "react-query";
+import styled from "styled-components";
+import { NftCollection } from "../../../build/tact_NftCollection";
+import { Address, toNano } from "ton-core";
+import { nftCollectionAddress } from "@/constants/addresses";
+import { useTonClient } from "@/hooks/useTonClient";
+import { NftItem } from "../../../build/tact_NftItem";
+import YouTube from "react-youtube";
+import useTonConnect from "@/hooks/useTonConnect";
+import { useTonAddress, useTonWallet } from "@tonconnect/ui-react";
 
 const Container = styled.article`
   width: 90%;
@@ -28,7 +28,7 @@ const VideoWrapper = styled.article`
   position: relative;
   border-radius: 10px;
   &::before {
-    content: '';
+    content: "";
     display: block;
     padding-top: 65%;
   }
@@ -66,7 +66,7 @@ const ViewAd = () => {
   const address = useTonAddress();
   const { sender } = useTonConnect();
   const { data: nftCollectionContract } = useQuery(
-    'nftCollectionContract',
+    "nftCollectionContract",
     async () => {
       const nftCollectionWrapper = NftCollection.fromAddress(
         Address.parse(nftCollectionAddress)
@@ -77,7 +77,7 @@ const ViewAd = () => {
   );
 
   const { data: nftItemContract } = useQuery(
-    'nftItemContract',
+    "nftItemContract",
     async () => {
       if (!nftCollectionContract) return;
       const currentNftItemAddress =
@@ -99,7 +99,7 @@ const ViewAd = () => {
   );
 
   const { data: url } = useQuery(
-    'url',
+    "url",
     async () => nftItemContract?.getGetUrl(),
     {
       refetchInterval: (data, query) => {
@@ -115,9 +115,9 @@ const ViewAd = () => {
     await nftItemContract?.send(
       sender,
       {
-        value: toNano('0.05'),
+        value: toNano("0.05"),
       },
-      'Claim'
+      "Claim"
     );
 
     setClaimed(true);
@@ -128,8 +128,8 @@ const ViewAd = () => {
 
   if (!url) {
     const opts = {
-      height: '300',
-      width: '390',
+      height: "300",
+      width: "390",
       playerVars: {
         controls: 0,
         autoplay: 1,
@@ -140,21 +140,15 @@ const ViewAd = () => {
         <div>
           <div>This is a default video</div>
           <div>Now video is on loading...</div>
-          <YouTube
-            opts={opts}
-            videoId="rumF8zJUFYI"
-            onEnd={() => {
-              !claimed && setClaimable(true);
-            }}
-          />
+          <YouTube opts={opts} videoId="rumF8zJUFYI" onEnd={() => {}} />
         </div>
       </section>
     );
   }
 
   const opts = {
-    height: '600',
-    width: '390',
+    height: "250",
+    width: "350",
     playerVars: {
       controls: 0,
       autoplay: 1,
@@ -163,7 +157,7 @@ const ViewAd = () => {
   } as const;
 
   const count = localStorage.getItem(address);
-  const claimedAmount = count ? `${Number(count) * 0.1} TON` : '0';
+  const claimedAmount = count ? `${Number(count) * 0.1} TON` : "0";
   // TODO: showFinale -> show finale animation
   return (
     <Container>
@@ -182,13 +176,14 @@ const ViewAd = () => {
         />
       </div>
       <div>Claimd amount: {claimedAmount}</div>
+
       {claimable && (
         <MainButton
+          disabled={!claimable}
           text="Earn"
           onClick={async () => {
             try {
-              handleClaim();
-              // TODO: Claim contract
+              claimable && handleClaim();
             } catch (e: any) {
               console.error(e);
             }
