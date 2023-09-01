@@ -218,9 +218,9 @@ const AddingAd = () => {
               }}
             />
             <label htmlFor="checkbox-input">
-              When registering for this video, you will need to pay 10 TON.
-              which will be distributed to Max user viewers (10) in the order in
-              which the ad is shown, in increments of 1 TON (10 TON / Max user
+              When registering for this video, you will need to pay 1 TON. which
+              will be distributed to Max user viewers (10) in the order in which
+              the ad is shown, in increments of 0.1 TON (1 TON / Max user
               viewers). If you understand and agree, please click the
               corresponding checkbox.
             </label>
