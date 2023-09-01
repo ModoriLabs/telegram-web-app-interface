@@ -1,5 +1,5 @@
-import { TonConnectButton } from '@tonconnect/ui-react';
-import { styled } from 'styled-components';
+import { TonConnectButton } from "@tonconnect/ui-react";
+import { styled } from "styled-components";
 
 const Container = styled.section`
   width: 100%;

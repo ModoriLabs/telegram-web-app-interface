@@ -25,7 +25,7 @@ const Container = styled.section`
 `;
 
 const InputWrapper = styled.section<{
-  isDisabled?: boolean;
+  $isDisabled?: boolean;
 }>`
   width: 100%;
   display: flex;
@@ -34,7 +34,7 @@ const InputWrapper = styled.section<{
   justify-content: space-between;
   padding: 6px 20px;
   ${(props) =>
-    props.isDisabled &&
+    props.$isDisabled &&
     css`
       background-color: #e5e7eb;
     `}
@@ -160,7 +160,7 @@ const AddingAd = () => {
           </InputContainer>
 
           <InputContainer>
-            <InputWrapper isDisabled>
+            <InputWrapper $isDisabled>
               <p>Max user viewer</p>
               <input type="text" value={10} disabled />
             </InputWrapper>

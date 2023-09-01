@@ -1,16 +1,16 @@
-import React from 'react';
-import { ReactNode, useState } from 'react';
-import { styled } from 'styled-components';
+import React from "react";
+import { ReactNode, useState } from "react";
+import { styled } from "styled-components";
 
 const Container = styled.div<{
-  isFocused: boolean;
+  $isFocused: boolean;
 }>`
   display: flex;
   align-items: center;
   width: 100%;
   height: 40px;
   border-radius: 10px;
-  border: 2px solid ${(props) => (props.isFocused ? '#efc2c0' : '#e5e7eb')};
+  border: 2px solid ${(props) => (props.$isFocused ? "#efc2c0" : "#e5e7eb")};
   transition: border 0.3s ease;
 
   input {
@@ -42,7 +42,7 @@ const InputContainer: React.FC<{
     return child;
   });
 
-  return <Container isFocused={isInputFocused}>{childrenWithProps}</Container>;
+  return <Container $isFocused={isInputFocused}>{childrenWithProps}</Container>;
 };
 
 export default InputContainer;
