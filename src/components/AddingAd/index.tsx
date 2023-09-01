@@ -175,15 +175,15 @@ const AddingAd = () => {
         message:
           "There is no detected wallet address. Please check your wallet",
       });
-      router.back();
+      router.push("/");
       return;
     }
-  }, [address, router, showPopup]);
+  }, []);
 
   return (
     <div>
       {isConfetti && <Confetti width={width} height={height} />}
-      <BackButton onClick={() => router.back()} />
+      <BackButton onClick={() => router.push("/")} />
       <Container>
         <h1>Enroll your Ad!</h1>
         <InputSection>
@@ -251,7 +251,7 @@ const AddingAd = () => {
           onClick={async () => {
             try {
               if (isConfetti) {
-                router.back();
+                router.push("/");
                 return;
               }
               mint();

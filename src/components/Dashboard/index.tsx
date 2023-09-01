@@ -1,9 +1,9 @@
-import { useTonAddress } from '@tonconnect/ui-react';
-import { BackButton } from '@vkruglikov/react-telegram-web-app';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import YouTube from 'react-youtube';
+import { useTonAddress } from "@tonconnect/ui-react";
+import { BackButton } from "@vkruglikov/react-telegram-web-app";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import YouTube from "react-youtube";
 
 const Container = styled.article`
   width: 90%;
@@ -19,7 +19,7 @@ const VideoWrapper = styled.article`
   position: relative;
   border-radius: 10px;
   &::before {
-    content: '';
+    content: "";
     display: block;
     padding-top: 65%;
   }
@@ -54,8 +54,8 @@ const Dashboard = () => {
   const count = localStorage.getItem(address);
   const claimedAmount = count
     ? `${(Number(count) * 0.1).toLocaleString()} TON`
-    : '0';
-  const minting = localStorage.getItem('minting');
+    : "0";
+  const minting = localStorage.getItem("minting");
   const [mintingData, setMintingData] = useState<
     {
       address: string;
@@ -75,7 +75,7 @@ const Dashboard = () => {
     <Container>
       <BackButton
         onClick={() => {
-          router.back();
+          router.push("/");
         }}
       />
       <DashboardContainer>
@@ -98,8 +98,8 @@ const Dashboard = () => {
                 <VideoWrapper key={index}>
                   <YouTube
                     opts={{
-                      height: '100%',
-                      width: '100%',
+                      height: "100%",
+                      width: "100%",
                     }}
                     videoId={data.url}
                   />

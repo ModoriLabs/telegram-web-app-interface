@@ -132,23 +132,9 @@ const ViewAd = () => {
   };
 
   if (!url) {
-    const opts = {
-      height: "100%",
-      width: "100%",
-      playerVars: {
-        controls: 0,
-        autoplay: 1,
-      },
-    } as const;
     return (
       <Container>
-        <div>
-          <div>This is a default video</div>
-          <div>Now video is on loading...</div>
-          <VideoWrapper>
-            <YouTube opts={opts} videoId="rumF8zJUFYI" onEnd={() => {}} />
-          </VideoWrapper>
-        </div>
+        <div>Loading...</div>
       </Container>
     );
   }
@@ -193,7 +179,7 @@ const ViewAd = () => {
             onClick={async () => {
               try {
                 if (isConfetti) {
-                  router.back();
+                  router.push("/");
                   return;
                 }
                 claimable && handleClaim();
