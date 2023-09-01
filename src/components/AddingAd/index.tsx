@@ -1,21 +1,21 @@
-import { useTonAddress } from "@tonconnect/ui-react";
-import { nftCollectionAddress } from "@/constants/addresses";
+import { useTonAddress } from '@tonconnect/ui-react';
+import { nftCollectionAddress } from '@/constants/addresses';
 import {
   BackButton,
   MainButton,
   useShowPopup,
-} from "@vkruglikov/react-telegram-web-app";
+} from '@vkruglikov/react-telegram-web-app';
 
-import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
-import { css, styled } from "styled-components";
-import InputContainer from "../common/InputContainer";
-import { useTonClient } from "@/hooks/useTonClient";
-import { useQuery } from "react-query";
-import { NftItem } from "../../../build/tact_NftItem";
-import { NftCollection } from "../../../build/tact_NftCollection";
-import { Address, toNano } from "ton-core";
-import useTonConnect from "@/hooks/useTonConnect";
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
+import { css, styled } from 'styled-components';
+import InputContainer from '../common/InputContainer';
+import { useTonClient } from '@/hooks/useTonClient';
+import { useQuery } from 'react-query';
+import { NftItem } from '../../../build/tact_NftItem';
+import { NftCollection } from '../../../build/tact_NftCollection';
+import { Address, toNano } from 'ton-core';
+import useTonConnect from '@/hooks/useTonConnect';
 
 const Container = styled.section`
   height: calc(100vh - 80px);
@@ -75,11 +75,11 @@ const AddingAd = () => {
   const address = useTonAddress();
   const [isAgreeFees, setAgreeFees] = useState(false);
   const { sender } = useTonConnect();
-  const [newUrl, setNewUrl] = useState("");
+  const [newUrl, setNewUrl] = useState('');
 
   const client = useTonClient();
   const { data: nftCollectionContract } = useQuery(
-    "nftCollectionContract",
+    'nftCollectionContract',
     async () => {
       const nftCollectionWrapper = NftCollection.fromAddress(
         Address.parse(nftCollectionAddress)
@@ -90,7 +90,7 @@ const AddingAd = () => {
     }
   );
 
-  const { data: nftItemContract } = useQuery("nftItemContract", async () => {
+  const { data: nftItemContract } = useQuery('nftItemContract', async () => {
     if (!nftCollectionContract) return;
     const currentNftItemAddress =
       await nftCollectionContract.getGetCurrentNftAddress();
@@ -100,39 +100,69 @@ const AddingAd = () => {
     return nftItemContract;
   });
 
-  const { data: url } = useQuery("url", async () =>
+  const { data: url } = useQuery('url', async () =>
     nftItemContract?.getGetUrl()
   );
 
   function isValidYouTubeShortID(str: String) {
-    return !str.includes("/") && !str.includes("http");
+    return !str.includes('/') && !str.includes('http');
   }
 
   const mint = async () => {
     if (!nftCollectionContract) return;
     if (!isValidYouTubeShortID(newUrl)) {
       showPopup({
-        message: "Please enter a valid YouTube Short ID",
+        message: 'Please enter a valid YouTube Short ID',
       });
       return;
     }
-    nftCollectionContract?.send(
-      sender,
-      {
-        value: toNano("1.05"),
-      },
-      {
-        $$type: "Mint",
-        url: newUrl,
-      }
-    );
+    nftCollectionContract
+      ?.send(
+        sender,
+        {
+          value: toNano('1.05'),
+        },
+        {
+          $$type: 'Mint',
+          url: newUrl,
+        }
+      )
+      .then(() => {
+        const mintingData = localStorage.getItem('minting');
+        let mintingArray = [];
+
+        if (mintingData) {
+          mintingArray = JSON.parse(mintingData);
+        } else {
+          mintingArray.push([
+            {
+              address: address,
+              url: 'a28k9P7FhLg',
+            },
+            {
+              address: address,
+              url: 'zc8R6a-kOTM',
+            },
+            {
+              address: address,
+              url: 'dE7DCF_s7HQ',
+            },
+          ]);
+        }
+
+        mintingArray.push({
+          address: address,
+          url: newUrl,
+        });
+        localStorage.setItem('minting', JSON.stringify(mintingArray));
+      });
   };
 
   useEffect(() => {
     if (!!!address) {
       showPopup({
         message:
-          "There is no detected wallet address. Please check your wallet",
+          'There is no detected wallet address. Please check your wallet',
       });
       router.back();
       return;
@@ -154,7 +184,7 @@ const AddingAd = () => {
                 onChange={(event) => {
                   setNewUrl(event.target.value);
                 }}
-                placeholder={url || "Enter the ad url"}
+                placeholder={url || 'Enter the ad url'}
               />
             </InputWrapper>
           </InputContainer>
