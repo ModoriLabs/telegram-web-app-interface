@@ -4,20 +4,20 @@ import {
   TonConnectButton,
   useTonAddress,
   useTonWallet,
-} from '@tonconnect/ui-react';
+} from "@tonconnect/ui-react";
 import {
   BackButton,
   MainButton,
   WebAppProvider,
   useShowPopup,
-} from '@vkruglikov/react-telegram-web-app';
-import Link from 'next/link';
-import { styled } from 'styled-components';
-import { Address, contractAddress } from 'ton-core';
-import { NftCollection } from '../../../build/tact_NftCollection';
-import { useQuery } from 'react-query';
-import { useTonClient } from '@/hooks/useTonClient';
-import { NftItem } from '../../../build/tact_NftItem';
+} from "@vkruglikov/react-telegram-web-app";
+import Link from "next/link";
+import { styled } from "styled-components";
+import { Address, contractAddress } from "ton-core";
+import { NftCollection } from "../../../build/tact_NftCollection";
+import { useQuery } from "react-query";
+import { useTonClient } from "@/hooks/useTonClient";
+import { NftItem } from "../../../build/tact_NftItem";
 
 const Container = styled.section`
   min-height: calc(100vh - 80px - 40px);
@@ -81,7 +81,7 @@ const Main = () => {
   const showPopup = useShowPopup();
   const wallet = useTonWallet();
   const address = useTonAddress();
-  const currentViewCount = localStorage?.getItem('viewCount') || '0';
+  const currentViewCount = localStorage?.getItem("viewCount") || "0";
 
   return (
     <Container>
@@ -89,21 +89,21 @@ const Main = () => {
         <ConnectWalletArea>
           <b>Select the features you want to use!</b>
           <ButtonWrapper>
-            <Link href={'/insert_ad'}>
+            <Link href={"/insert_ad"}>
               <ContainerButton>
-                <b>Register your ad</b>
+                <b>🎬 Register your Ads</b>
                 <p>Publish ads on the platform for a successful business!</p>
               </ContainerButton>
             </Link>
             <Link href={`/view_ad/${currentViewCount}`}>
               <ContainerButton>
-                <b>To view ads</b>
+                <b>🍿 View Ads and Earn TON!</b>
                 <p>Easily receive airdrops by viewing ads!</p>
               </ContainerButton>
             </Link>
-            <Link href={'/dashboard'}>
+            <Link href={"/dashboard"}>
               <ContainerButton>
-                <b>Dashboard</b>
+                <b>📝 Dashboard</b>
                 <p>Check your wallet account information here</p>
               </ContainerButton>
             </Link>
