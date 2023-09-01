@@ -1,4 +1,3 @@
-import { BackButton, MainButton } from "@vkruglikov/react-telegram-web-app";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
@@ -14,6 +13,7 @@ import { useTonAddress, useTonWallet } from "@tonconnect/ui-react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { toast } from "react-toastify";
+import { BackButton, MainButton } from "@twa-dev/sdk/react";
 
 const Container = styled.article`
   width: 90%;

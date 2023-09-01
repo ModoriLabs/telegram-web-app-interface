@@ -1,10 +1,7 @@
 import { useTonAddress } from "@tonconnect/ui-react";
 import { nftCollectionAddress } from "@/constants/addresses";
-import {
-  BackButton,
-  MainButton,
-  useShowPopup,
-} from "@vkruglikov/react-telegram-web-app";
+import { useShowPopup } from "@vkruglikov/react-telegram-web-app";
+import { BackButton, MainButton } from "@twa-dev/sdk/react";
 
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
@@ -302,10 +299,10 @@ const AddingAd = () => {
       {/* {isAgreeFees &&
         (isConfetti ? (
           <MainButton
-            text={"Go to main page"}
+            text={'Go to main page'}
             onClick={async () => {
               try {
-                router.push("/");
+                router.push('/');
                 return;
               } catch (e: any) {
                 console.log(e);
