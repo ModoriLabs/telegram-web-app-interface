@@ -1,5 +1,5 @@
 import { useTonAddress } from "@tonconnect/ui-react";
-import { BackButton } from "@vkruglikov/react-telegram-web-app";
+import { BackButton } from "@twa-dev/sdk/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
