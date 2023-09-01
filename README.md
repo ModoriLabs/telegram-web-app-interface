@@ -37,3 +37,13 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 "# telegram-web-app-interface" 
+
+## Repositories
+Contract
+- https://github.com/ModoriLabs/TonWatchAds
+
+TWA interface
+- https://github.com/ModoriLabs/telegram-web-app-interface.git
+
+Bot server
+- https://github.com/ModoriLabs/ton-bootcamp.git
