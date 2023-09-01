@@ -73,7 +73,7 @@ const ViewAd = () => {
 
   useEffect(() => {
     if (isConfetti) {
-      toast.success("The airdrop is now complete", {
+      toast.success("You Receved TON successfully", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -183,7 +183,7 @@ const ViewAd = () => {
       <Container>
         <BackButton onClick={() => router.back()} />
         <div>
-          <div>Watch Video and Earn TON!</div>
+          <div>Watch Video and Receive TON!</div>
           <VideoWrapper>
             <YouTube
               opts={opts}
@@ -210,7 +210,7 @@ const ViewAd = () => {
               }
             }}
           >
-            {isConfetti ? "Go to main page" : "Earn"}
+            {isConfetti ? "Go to main page" : "Receive"}
           </ConfirmButton>
         )}
       </Container>

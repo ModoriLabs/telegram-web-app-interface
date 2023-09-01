@@ -193,7 +193,7 @@ const AddingAd = () => {
 
   useEffect(() => {
     if (isConfetti) {
-      toast.success("Ad confirm Success!", {
+      toast.success("Successfully Registered!", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -210,7 +210,7 @@ const AddingAd = () => {
       {isConfetti && <Confetti width={width} height={height} />}
       <BackButton onClick={() => router.push("/")} />
       <Container>
-        <h1>Enroll your Ad!</h1>
+        <h1>Register your Ad!</h1>
         <InputSection>
           <InputContainer>
             <InputWrapper>
