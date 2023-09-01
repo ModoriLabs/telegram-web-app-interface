@@ -118,8 +118,11 @@ const AddingAd = () => {
   }
 
   const mint = useCallback(async () => {
+    window.alert("mint1");
     if (!nftCollectionContract) return;
+    window.alert("mint2");
     if (!isValidYouTubeShortID(newUrl)) {
+      window.alert("mint3");
       showPopup({
         message: "Please enter a valid YouTube Short ID",
       });
@@ -137,6 +140,7 @@ const AddingAd = () => {
         }
       )
       .then(() => {
+        window.alert("mint4");
         setConfetti(true);
         const mintingData = localStorage.getItem("minting");
         let mintingArray = [];
@@ -167,7 +171,12 @@ const AddingAd = () => {
           url: newUrl,
         });
         localStorage.setItem("minting", JSON.stringify(mintingArray));
+      })
+      .catch((e) => {
+        window.alert(e);
+        console.log(e);
       });
+    window.alert("mint6");
   }, [nftCollectionContract, address, newUrl, sender, showPopup]);
 
   useEffect(() => {
