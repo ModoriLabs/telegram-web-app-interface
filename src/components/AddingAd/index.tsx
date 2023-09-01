@@ -11,7 +11,7 @@ import { useWindowSize } from "react-use";
 
 import YouTube from "react-youtube";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { css, styled } from "styled-components";
 import InputContainer from "../common/InputContainer";
 import { useTonClient } from "@/hooks/useTonClient";
@@ -117,7 +117,7 @@ const AddingAd = () => {
     return !str.includes("/") && !str.includes("http");
   }
 
-  const mint = async () => {
+  const mint = useCallback(async () => {
     if (!nftCollectionContract) return;
     if (!isValidYouTubeShortID(newUrl)) {
       showPopup({
@@ -168,7 +168,7 @@ const AddingAd = () => {
         });
         localStorage.setItem("minting", JSON.stringify(mintingArray));
       });
-  };
+  }, [nftCollectionContract, address, newUrl, sender, showPopup]);
 
   useEffect(() => {
     if (!!!address) {
