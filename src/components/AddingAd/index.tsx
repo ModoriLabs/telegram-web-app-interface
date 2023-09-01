@@ -74,6 +74,13 @@ const Checkbox = styled.div`
   }
 `;
 
+const ConfirmButton = styled.button`
+  width: 100%;
+  background: #0088cc;
+  height: 40px;
+  color: white;
+`;
+
 const AddingAd = () => {
   const router = useRouter();
   const showPopup = useShowPopup();
@@ -118,11 +125,8 @@ const AddingAd = () => {
   }
 
   const mint = useCallback(async () => {
-    window.alert("mint1");
     if (!nftCollectionContract) return;
-    window.alert("mint2");
     if (!isValidYouTubeShortID(newUrl)) {
-      window.alert("mint3");
       showPopup({
         message: "Please enter a valid YouTube Short ID",
       });
@@ -140,7 +144,6 @@ const AddingAd = () => {
         }
       )
       .then(() => {
-        window.alert("mint4");
         setConfetti(true);
         const mintingData = localStorage.getItem("minting");
         let mintingArray = [];
@@ -173,10 +176,8 @@ const AddingAd = () => {
         localStorage.setItem("minting", JSON.stringify(mintingArray));
       })
       .catch((e) => {
-        window.alert(e);
         console.log(e);
       });
-    window.alert("mint6");
   }, [nftCollectionContract, address, newUrl, sender, showPopup]);
 
   useEffect(() => {
@@ -209,7 +210,7 @@ const AddingAd = () => {
       {isConfetti && <Confetti width={width} height={height} />}
       <BackButton onClick={() => router.push("/")} />
       <Container>
-        <h1>Enroll222 your Ad!</h1>
+        <h1>Enroll your Ad!</h1>
         <InputSection>
           <InputContainer>
             <InputWrapper>
@@ -271,6 +272,35 @@ const AddingAd = () => {
 
       {isAgreeFees &&
         (isConfetti ? (
+          <ConfirmButton
+            style={{
+              position: "fixed",
+              bottom: 0,
+            }}
+            onClick={async () => {
+              try {
+                router.push("/");
+                return;
+              } catch (e: any) {
+                console.log(e);
+              }
+            }}
+          >
+            Go to main page
+          </ConfirmButton>
+        ) : (
+          <ConfirmButton
+            style={{
+              position: "fixed",
+              bottom: 0,
+            }}
+            onClick={mint}
+          >
+            Confirm Ad!!
+          </ConfirmButton>
+        ))}
+      {/* {isAgreeFees &&
+        (isConfetti ? (
           <MainButton
             text={"Go to main page"}
             onClick={async () => {
@@ -284,7 +314,7 @@ const AddingAd = () => {
           ></MainButton>
         ) : (
           <MainButton text={"Confirm Ad!!"} onClick={mint}></MainButton>
-        ))}
+        ))} */}
     </div>
   );
 };

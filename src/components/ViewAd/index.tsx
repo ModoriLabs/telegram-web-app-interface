@@ -1,19 +1,19 @@
-import { BackButton, MainButton } from '@vkruglikov/react-telegram-web-app';
-import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
-import { useQuery } from 'react-query';
-import styled from 'styled-components';
-import { NftCollection } from '../../../build/tact_NftCollection';
-import { Address, toNano } from 'ton-core';
-import { nftCollectionAddress } from '@/constants/addresses';
-import { useTonClient } from '@/hooks/useTonClient';
-import { NftItem } from '../../../build/tact_NftItem';
-import YouTube from 'react-youtube';
-import useTonConnect from '@/hooks/useTonConnect';
-import { useTonAddress, useTonWallet } from '@tonconnect/ui-react';
-import Confetti from 'react-confetti';
-import { useWindowSize } from 'react-use';
-import { toast } from 'react-toastify';
+import { BackButton, MainButton } from "@vkruglikov/react-telegram-web-app";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
+import styled from "styled-components";
+import { NftCollection } from "../../../build/tact_NftCollection";
+import { Address, toNano } from "ton-core";
+import { nftCollectionAddress } from "@/constants/addresses";
+import { useTonClient } from "@/hooks/useTonClient";
+import { NftItem } from "../../../build/tact_NftItem";
+import YouTube from "react-youtube";
+import useTonConnect from "@/hooks/useTonConnect";
+import { useTonAddress, useTonWallet } from "@tonconnect/ui-react";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
+import { toast } from "react-toastify";
 
 const Container = styled.article`
   width: 90%;
@@ -31,7 +31,7 @@ const VideoWrapper = styled.article`
   position: relative;
   border-radius: 10px;
   &::before {
-    content: '';
+    content: "";
     display: block;
     padding-top: 65%;
   }
@@ -73,21 +73,26 @@ const ViewAd = () => {
 
   useEffect(() => {
     if (isConfetti) {
-      toast.success('The airdrop is now complete', {
-        position: 'bottom-right',
+      toast.success("The airdrop is now complete", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'light',
+        theme: "light",
       });
     }
   }, [isConfetti]);
-
+  const ConfirmButton = styled.button`
+    width: 100%;
+    background: #0088cc;
+    height: 40px;
+    color: white;
+  `;
   const { data: nftCollectionContract } = useQuery(
-    'nftCollectionContract',
+    "nftCollectionContract",
     async () => {
       const nftCollectionWrapper = NftCollection.fromAddress(
         Address.parse(nftCollectionAddress)
@@ -98,7 +103,7 @@ const ViewAd = () => {
   );
 
   const { data: nftItemContract } = useQuery(
-    'nftItemContract',
+    "nftItemContract",
     async () => {
       if (!nftCollectionContract) return;
       const currentNftItemAddress =
@@ -120,7 +125,7 @@ const ViewAd = () => {
   );
 
   const { data: url } = useQuery(
-    'url',
+    "url",
     async () => nftItemContract?.getGetUrl(),
     {
       refetchInterval: (data, query) => {
@@ -136,9 +141,9 @@ const ViewAd = () => {
     await nftItemContract?.send(
       sender,
       {
-        value: toNano('0.05'),
+        value: toNano("0.05"),
       },
-      'Claim'
+      "Claim"
     );
 
     setClaimed(true);
@@ -157,8 +162,8 @@ const ViewAd = () => {
   }
 
   const opts = {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     playerVars: {
       controls: 0,
       autoplay: 1,
@@ -169,7 +174,7 @@ const ViewAd = () => {
   const count = localStorage.getItem(address);
   const claimedAmount = count
     ? `${(Number(count) * 0.1).toLocaleString()} TON`
-    : '0';
+    : "0";
   // TODO: showFinale -> show finale animation
 
   return (
@@ -192,12 +197,11 @@ const ViewAd = () => {
         </div>
         <div>Claimed amount: {claimedAmount}</div>
         {claimable && (
-          <MainButton
-            text={isConfetti ? 'Go to main page' : 'Earn'}
+          <ConfirmButton
             onClick={async () => {
               try {
                 if (isConfetti) {
-                  router.push('/');
+                  router.push("/");
                   return;
                 }
                 claimable && handleClaim();
@@ -205,7 +209,9 @@ const ViewAd = () => {
                 console.error(e);
               }
             }}
-          ></MainButton>
+          >
+            {isConfetti ? "Go to main page" : "Earn"}
+          </ConfirmButton>
         )}
       </Container>
     </>
