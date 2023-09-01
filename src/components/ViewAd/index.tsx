@@ -197,7 +197,8 @@ const ViewAd = () => {
         </div>
         <div>Claimed amount: {claimedAmount}</div>
         {claimable && (
-          <ConfirmButton
+          <MainButton
+            text={isConfetti ? "Go to main page" : "Earn"}
             onClick={async () => {
               try {
                 if (isConfetti) {
@@ -209,9 +210,7 @@ const ViewAd = () => {
                 console.error(e);
               }
             }}
-          >
-            {isConfetti ? "Go to main page" : "Receive"}
-          </ConfirmButton>
+          ></MainButton>
         )}
       </Container>
     </>

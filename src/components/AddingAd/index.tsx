@@ -267,7 +267,7 @@ const AddingAd = () => {
         )}
       </Container>
 
-      {isAgreeFees &&
+      {/* {isAgreeFees &&
         (isConfetti ? (
           <ConfirmButton
             style={{
@@ -295,14 +295,14 @@ const AddingAd = () => {
           >
             Confirm Ad!!
           </ConfirmButton>
-        ))}
-      {/* {isAgreeFees &&
+        ))} */}
+      {isAgreeFees &&
         (isConfetti ? (
           <MainButton
-            text={'Go to main page'}
+            text={"Go to main page"}
             onClick={async () => {
               try {
-                router.push('/');
+                router.push("/");
                 return;
               } catch (e: any) {
                 console.log(e);
@@ -311,7 +311,7 @@ const AddingAd = () => {
           ></MainButton>
         ) : (
           <MainButton text={"Confirm Ad!!"} onClick={mint}></MainButton>
-        ))} */}
+        ))}
     </div>
   );
 };
