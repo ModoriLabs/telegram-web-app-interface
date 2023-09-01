@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-import { BackButton, MainButton } from '@vkruglikov/react-telegram-web-app';
-import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
-import { useQuery } from 'react-query';
-import styled from 'styled-components';
-import { NftCollection } from '../../../build/tact_NftCollection';
-import { Address, toNano } from 'ton-core';
-import { nftCollectionAddress } from '@/constants/addresses';
-import { useTonClient } from '@/hooks/useTonClient';
-import { NftItem } from '../../../build/tact_NftItem';
-import YouTube from 'react-youtube';
-import useTonConnect from '@/hooks/useTonConnect';
-import { useTonAddress, useTonWallet } from '@tonconnect/ui-react';
-import Confetti from 'react-confetti';
-import { useWindowSize } from 'react-use';
-=======
 import { BackButton, MainButton } from "@vkruglikov/react-telegram-web-app";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -28,7 +11,8 @@ import { NftItem } from "../../../build/tact_NftItem";
 import YouTube from "react-youtube";
 import useTonConnect from "@/hooks/useTonConnect";
 import { useTonAddress, useTonWallet } from "@tonconnect/ui-react";
->>>>>>> 3037116 (Add preview)
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const Container = styled.article`
   width: 90%;
@@ -205,7 +189,7 @@ const ViewAd = () => {
         <div>Claimed amount: {claimedAmount}</div>
         {claimable && (
           <MainButton
-            text={isConfetti ? 'Go to main page' : 'Earn'}
+            text={isConfetti ? "Go to main page" : "Earn"}
             onClick={async () => {
               try {
                 if (isConfetti) {
